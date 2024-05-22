@@ -1,18 +1,17 @@
 import Movie from "../movie/movie";
 import styles from "./Movies.module.css";
-import data from "../../utills/constants/data";
-import { useState } from "react";
+
 import { nanoid } from "nanoid";
 
 
 
-function Movies () {
+function Movies (props) {
 
-    const [movies, setMovie ] = useState(data);
+    const { movies, setMovie }  = props;
 
     function tambahFilm() {
         const movie = {
-            id: nanoid,
+            id: nanoid(),
             title: "Avatar",
             year : "2020",
             type : "Movie",

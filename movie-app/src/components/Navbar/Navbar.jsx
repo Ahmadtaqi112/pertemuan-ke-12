@@ -1,4 +1,5 @@
 import styles from "./Navbar.module.css";
+import { Link } from "react-router-dom";
 
 function Navbar () {
     return (
@@ -11,11 +12,23 @@ function Navbar () {
                 </div>
                 <div>
                     <ul className={styles.navbar__list}>
-                        <li className={styles.navbar__item}>Home</li>
-                        <li className={styles.navbar__item}>Add Movie</li>
-                        <li className={styles.navbar__item}>Popular</li>
-                        <li className={styles.navbar__item}>Now Playing</li>
-                        <li className={styles.navbar__item}>Top Rated</li>
+                        <li className={styles.navbar__item}>
+
+                        <Link to="/">Home</Link>
+                        </li>
+                        <li className={styles.navbar__item}>
+                        <Link to="/movie/create">Add Movie</Link>
+                        </li>
+
+                        <li className={styles.navbar__item}>
+                            <Link to="/movie/popular">Popular</Link>
+                        </li>
+                        <li className={styles.navbar__item}>
+                            <Link to="/movie/nowplaying">Now Playing</Link>
+                        </li>
+                        <li className={styles.navbar__item}>
+                            <Link to="/movie/toprated">Top Rated</Link>
+                        </li>
 
                     </ul>
                 </div>

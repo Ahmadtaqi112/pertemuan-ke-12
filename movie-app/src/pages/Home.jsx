@@ -1,18 +1,18 @@
-import Footer from "../components/Footer/Footer";
+import { useState } from "react";
 import Hero from "../components/Hero/Hero";
 import Movies from "../components/Movies/Movies";
-import Navbar from "../components/Navbar/Navbar";
 import AddMovie from "../components/Addmovieform/Addmovie";
-
+import data from "../utills/constants/data";
 
 function Home() {
+
+const [movies, setMovies] = useState(data);
+
   return (
   <div>
-      <Navbar />
       <Hero />
-      <Movies />
-      <AddMovie />
-     <Footer />
+    <Movies movies={movies} setMovies={setMovies} />  
+   <AddMovie movies={movies} setMovies={setMovies} />
   </div>
   );
 }
