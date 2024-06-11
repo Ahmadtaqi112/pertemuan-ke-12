@@ -2,7 +2,7 @@ import { useState } from "react";
 import Hero from "../components/Hero/Hero";
 import Movies from "../components/Movies/Movies";
 import AddMovie from "../components/Addmovieform/Addmovie";
-import data from "../utills/constants/data";
+import data from "../utills/data";
 
 function Home() {
 
