@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { useState } from "react"; 
 import Alert from "../Alert/Alert";
+import Button from "../ui/Button";
 import styles from "./addmovie.module.css"
 
 function AddMovie(props) {

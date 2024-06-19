@@ -1,55 +1,54 @@
-import styles from "./Hero.module.css";
+
 import { useEffect, useState } from "react";
+import Button from "../ui/Button";
+import {StyledHero, Leftside, Rightside } from "./Hero.styled";
+import axios from "axios";
 
 function Hero () {
 
 // Membuat State movie
 const [movie, setMovie] = useState("");
+const API_KEY = process.env.REACT_APP_API_KEY;
+const genres = movie && movie.genres.map((genre) => genre.name).join(", ");
+const trailer = movie && `https://www.youtube.com/watch?v=${movie.videos.results[0].key}`
 
-async function fetchMovie() {
-  const url = "https://www.omdbapi.com/?apikey=fcf50ae6&i=tt2975590";
-  // Melakukan Fetch data dari API omdb.
-  const response = await fetch(url);
-  const data = await response.json();
+useEffect(getDetailMovie, []);
 
-  // Update state movie dengan data movie (hasil fetch)
-  setMovie(data);
+
+async function getTrendingMovies() {
+    const URL = `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`;
+    const response = await axios(URL);
+    return response.data.results[Math.floor(Math.random() * 5)]; 
 }
 
-/**
- * Menjalankan useEffect.
- * Parameter kedua digunakan untuk custom lifecycle update.
- * Jika state di dalam array berubah, maka jalankan useEffect lagi (lifecycle update).
- * Jika state di dalam array kosong, maka jalankan sekali (lifecycle mount).
- */
-useEffect(fetchMovie, []);
 
-// Tampilkan state movie.
-console.log(movie);
+async function getDetailMovie() {
+    const trendingMovie = await getTrendingMovies();
+    const id = trendingMovie.id;   
 
+    // fetch detail movie by id
+    const URL = `https://api.themoviedb.org/3/movie/${id},?api_key=${API_KEY}&append_to_response=videos`
+    const response = await axios(URL);
+    console.log(response);
 
-    return (
-        <div className={styles.container}>
-            <section className={styles.hero}>
-                <div className={styles.hero__left}>
-                    <h2 className={styles.hero__title}>{movie.Title}</h2>
-                    <h3 className={styles.hero__genre}>
-                        Genre: {movie.Genre}
-                    </h3>
-                    <p className={styles.hero__description}>
-                    {movie.Plot}
-                    </p>
-                    <button className={styles.hero__button}>Watch</button>
-                </div>
-                <div className="hero__right">
-                    <img 
-                    className={styles.hero__image}
-                    src={movie.Poster}
-                    alt="placeholder" />
-                </div>
-            </section>
-        </div>
-    )
+    setMovie(response.data)
+}
+
+return(
+    <StyledHero>
+        <section>
+            <Leftside>
+                <h2>{movie.title}</h2>
+                <h3>{genres}</h3>
+                <p>{movie.overview}</p>
+                <Button variant="primary" size="lg" as="a" href={trailer} target="_blank">Watch</Button>
+            </Leftside>
+            <Rightside>
+                <img src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`} alt="" />
+            </Rightside>    
+        </section>
+    </StyledHero>            
+);
 }
 
 export default Hero;

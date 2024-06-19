@@ -1,6 +1,5 @@
 import Movie from "../movie/movie";
 import styles from "./Movies.module.css";
-
 import { nanoid } from "nanoid";
 
 
