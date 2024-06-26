@@ -1,36 +1,27 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Movies from "../../components/Movies/Movies";
+import ENDPOINTS from "../../utills/constants/endpoints";
 import Hero from "../../components/Hero/Hero"; 
  
 function NowPlaying() {
-  // Simpan API_KEY dan URL ke variabel
-  const API_KEY = process.env.REACT_APP_API_KEY;
-  const URL = `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}`; 
+  const [movies, setMovies] = useState([]);
 
-  // Membuat state movies
-  const [movies, setMovies] = useState([]);  
+  async function fetchNowPlaying() {
+    const response = await axios(ENDPOINTS.NOW_PLAYING);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    getNowPlaying();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function getNowPlaying() {
-        // Fetch data dari Axios
-        const response = await axios(URL)
-
-        // Simpan data ke state movies
-        setMovies(response.data.results);
+    setMovies(response.data.results);
   }
 
+  useEffect(function () {
+    fetchNowPlaying();
+  }, []);
+
   return (
-    <>
-      <Hero />
-      <Movies movies={movies}/>       
-    </>
-  )
+    <div>
+      <Movies title="Now Playing" movies={movies} setMovies={setMovies} />
+    </div>
+  );
 }
 
-export default NowPlaying
+export default NowPlaying;

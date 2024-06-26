@@ -1,36 +1,27 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Movies from "../../components/Movies/Movies";
+import ENDPOINTS from "../../utills/constants/endpoints";
 import Hero from "../../components/Hero/Hero"; 
  
-function PopularMovie() {
-  // Simpan API_KEY dan URL ke variabel
-  const API_KEY = process.env.REACT_APP_API_KEY;
-  const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`; 
+function PopulerMovies() {
+  const [movies, setMovies] = useState([]);
 
-  // Membuat state movies
-  const [movies, setMovies] = useState([]);  
+  async function fetchPopularMovies() {
+    const response = await axios(ENDPOINTS.POPULAR);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    getPopularMovies();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function getPopularMovies() {
-        // Fetch data dari Axios
-        const response = await axios(URL)
-
-        // Simpan data ke state movies
-        setMovies(response.data.results);
+    setMovies(response.data.results);
   }
 
+  useEffect(function () {
+    fetchPopularMovies();
+  }, []);
+
   return (
-    <>
-      <Hero />
-      <Movies movies={movies}/>       
-    </>
-  )
+    <div>
+      <Movies title="Popular" movies={movies} setMovies={setMovies} />
+    </div>
+  );
 }
 
-export default PopularMovie
+export default PopulerMovies;

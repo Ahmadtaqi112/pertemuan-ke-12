@@ -1,4 +1,5 @@
 import StyledMovie from "./Movie.styled";
+import { Link } from "react-router-dom";
 
 
 function Movie(props) {
@@ -7,9 +8,20 @@ function Movie(props) {
 
   return (
     <StyledMovie>
-            <img src={movie.poster || `https://image.tmdb.org/t/p/w500/${movie.poster_path}`} alt="" />
-            <h3>{movie.title}</h3>
-            <p>{movie.year || movie.release_date.slice(0, 4)}</p>  
+        <Link to={`/movie/${movie.id}`}>
+        <Image
+          className="movie__image"
+          rounded
+          borderColor="blue"
+          src={
+            movie.poster ||
+            `https://image.tmdb.org/t/p/w300/${movie.poster_path}`
+          }
+          alt={movie.title}
+        />
+         <h3 className="movie__title">{movie.title}</h3>
+        <p className="movie__date">{movie.year || movie.release_date}</p>
+     </Link>
         </StyledMovie>
   );
 }
